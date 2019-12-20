@@ -48,3 +48,40 @@ La figura muestra el Node.js cuyo servidor enlaza un puerto TCP. Los clientes, q
 Nuestro programa de servidor todavía no hace nada con la conexión, nuestro paso siguiente es añadir que pueda enviar información útil al cliente.
 
 ### Writing Data to a Socket
+
+Para esta sección haremos uso de algunas utilidades afrontados en capitulos anteriores como el control de archivos pero con algunas modificaciones.
+
+{% highlight javascript  %}
+
+'use strict';
+
+const fs = require('fs');
+const net = require('net');
+const filename = process.argv[2];
+
+if(!filename){
+    throw Error('Error: No filename specified');
+}
+
+net.createServer(connection => {
+    //reporting
+    console.log('Subscriber connected');
+    connection.write(`Now watching "${filename}" for changes...\n`);
+
+    //watcher setup
+    const watcher = fs.watch(filename,() => connection.write(`File changed: ${new Date()}\n`));
+
+    //Cleanup
+    connection.on('close', () =>{
+        console.log('Subscriber disconnected');
+        watcher.close();
+    });
+}).listen(60300, () => console.log('Listening for subscribers...'));
+
+{% endhighlight %}
+
+Vamos a ver que hace nuestra callback de `net.createServer()`:
+
+- 
+- 
+- 
