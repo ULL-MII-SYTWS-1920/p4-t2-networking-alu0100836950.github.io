@@ -2,28 +2,49 @@
 layout: post
 title:  "Práctica p4-t2-networking"
 date:   2019-12-19 17:23:59 +0000
-categories: jekyll update
+categories: update jekyll
 ---
-You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
 
-Jekyll requires blog post files to be named according to the following format:
+# NETWORKING WITH SOCKETS
 
-`YEAR-MONTH-DAY-title.MARKUP`
 
-Where `YEAR` is a four-digit number, `MONTH` and `DAY` are both two-digit numbers, and `MARKUP` is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.
+## Listening for Socket Connections
 
-Jekyll also offers powerful support for code snippets:
+El **objetivo** de esta seccion es aprender cómo crear servicios basados ​​en sockets utilizando *Node.js*. Con esto conseguiremos entender como se realiza el patrón *cliente/servidor*.
 
-{% highlight ruby %}
-def print_hi(name)
-  puts "Hi, #{name}"
-end
-print_hi('Tom')
-#=> prints 'Hi, Tom' to STDOUT.
+### Binding a Server to a TCP Port
+
+
+Las conexiones de socket TCP constan de dos *endpoints*. Un de ellos se une a un puerto numerado mientras que el otro se conecta a un puerto.
+
+*Si usamos la telefonía como ejemplo vemos como un telefono que dispone de una numeracion fija, por un tiempo, recibe una llamada de otro teléfono y a partir de esa conexion se transmiten los datos, en ese caso la información que se transmite es el sonido.*
+
+En Node.js, las operaciones de enlace y conexión son proporcionadas por el módulo de red.
+
+Así se vería el enlace a un puerto TCP:
+
+{% highlight javascript  %}
+ 
+'use strict';
+const net = require('net'), 
+server = net.createServer(connection => {
+  //use the connection object for data transfer.
+});
+server.listen(60300);
+ 
 {% endhighlight %}
 
-Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
 
-[jekyll-docs]: https://jekyllrb.com/docs/home
-[jekyll-gh]:   https://github.com/jekyll/jekyll
-[jekyll-talk]: https://talk.jekyllrb.com/
+El método `net.createServer()` toma una función de devolución de llamada y devuelve un objeto **Servidor**. 
+
+Node.js invocará la función de devolución de llamada cada vez que se conecte otro *endpoint*.
+
+Para tener un poco má claro este concepto nos fijaremos en la sioguiente imagen:
+
+<img src="/img/connection.png" alt="Esquema de conexion">
+
+La figura muestra el Node.js cuyo servidor enlaza un puerto TCP. Los clientes, que pueden ser o no procesos de Node.js, pueden conectarse a ese puerto enlazado.
+
+Nuestro programa de servidor todavía no hace nada con la conexión, nuestro paso siguiente es añadir que pueda enviar información útil al cliente.
+
+### Writing Data to a Socket
