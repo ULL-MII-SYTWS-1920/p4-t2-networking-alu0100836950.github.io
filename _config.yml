@@ -22,7 +22,7 @@ title: Sistemas Web Servidor
 email: alu0100836950
 description: >- # this means to ignore newlines until "baseurl:"
  Realización de la práctica de networking
-baseurl: "" # the subpath of your site, e.g. /blog p4-t2-networking-alu0100836950.github.io
+baseurl: "p4-t2-networking-alu0100836950.github.io" # the subpath of your site, e.g. /blog p4-t2-networking-alu0100836950.github.io
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: alberto_mrtn
 github_username:  alu0100836950
