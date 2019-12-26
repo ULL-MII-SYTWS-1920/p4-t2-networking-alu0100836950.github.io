@@ -197,4 +197,40 @@ Para codificar el *segundo mensaje* lo haremos de la siguiente forma:
 
 ### Switching to JSON Messages
 
+Nuestra tarea es usar `JSON.stringify()` para codificar objetos de mensaje y enviarlos a través de `connection.write()`. `JSON.stringify()` toma un objeto JavaScript y devuelve una cadena que contiene una representación serializada de ese objeto en forma JSON.
 
+Para ello modificaremos el archivo *net-watcher.js* cambiando la linea de `connection.write`en donde pondremos lo siguiente:
+
+```
+connection.write(JSON.stringify({type: 'watching', file: filename}) + '\n');
+
+```
+
+Lo siguiente es cambiar la llamada a `connection.write()` en el *watcher* por lo siguiente:
+
+```
+const watcher = fs.watch(filename, () => connection.write( JSON.stringify({type: 'changed', timestamp: Date.now()}) + '\n'));
+
+```
+
+Probamos las modificaciones para ver los resultados transformados en JSON.
+
+```
+✔ ~/Documents/Master Informatica/STW-SERVER/p4-t2-networking [master|✔] 
+12:16 $ node networking/net-watcher-json-service.js target.txt 
+Listening for subscribers...
+Subscriber connected
+```
+
+```
+✔ ~/Documents/Master Informatica/STW-SERVER/p4-t2-networking [master|✚ 5…6] 
+12:15 $ nc localhost 60300
+{"type":"watching","file":"target.txt"}
+{"type":"changed","timestamp":1577363691686}
+
+```
+
+Ahora pasaremos a escribir un programa cliente que procese estos mensajes.
+
+
+## Creating Socket Client Connections
