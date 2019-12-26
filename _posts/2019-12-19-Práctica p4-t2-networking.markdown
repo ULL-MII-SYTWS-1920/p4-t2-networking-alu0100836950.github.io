@@ -234,3 +234,41 @@ Ahora pasaremos a escribir un programa cliente que procese estos mensajes.
 
 
 ## Creating Socket Client Connections
+
+Escribiremos un programa cliente en **Node.js** para recibir mensajes JSON de nuestro programa *net-watcher-json-service*.
+
+Crearemos un nuevo fichero que lo llamaremos *net-watcher-json-client.js*
+
+```
+'use strict';
+const net = require('net');
+const client = net.connect({port: 60300}); client.on('data', data => {
+const message = JSON.parse(data); if (message.type === 'watching') {
+console.log(`Now watching: ${message.file}`); } else if (message.type === 'changed') {
+const date = new Date(message.timestamp);
+console.log(`File changed: ${date}`); } else {
+console.log(`Unrecognized message type: ${message.type}`); }
+});
+
+```
+El objeto del cliente es un Socket. Cada vez que ocurre un evento de datos, nuestra función de devolución de llamada toma el objeto de búfer entrante, analiza el mensaje JSON y luego registra un mensaje apropiado en la consola.
+
+Probamos los ficheros:
+
+```
+~/Documents/Master Informatica/STW-SERVER/p4-t2-networking [master|✚ 2…1] 
+13:11 $ node networking/net-watcher-json-service.js target.txt 
+Listening for subscribers...
+Subscriber connected
+
+
+~/Documents/Master Informatica/STW-SERVER/p4-t2-networking [master|✚ 2…1] 
+13:11 $ node networking/net-watcher-json-client.js 
+Now watching: target.txt
+File changed: Thu Dec 26 2019 13:11:26 GMT+0000 (hora estándar de Europa occidental)
+
+```
+
+Todo funciona correctamente, sin embargo, este programa solo escucha eventos de datos, no eventos finales o eventos de error y esto debemos corregirlo. Ademas exidte un error que analizaremos a continuación.
+
+### Testing Network Application Functionality
