@@ -272,3 +272,96 @@ File changed: Thu Dec 26 2019 13:11:26 GMT+0000 (hora estándar de Europa occide
 Todo funciona correctamente, sin embargo, este programa solo escucha eventos de datos, no eventos finales o eventos de error y esto debemos corregirlo. Ademas exidte un error que analizaremos a continuación.
 
 ### Testing Network Application Functionality
+
+Las pruebas funcionales nos aseguran que nuestro código hace lo que esperamos que haga. En esta sección, desarrollaremos una prueba para nuestro *servidor de archivos* y programas *cliente*. Crearemos un servidor simulado que se ajuste a nuestro protocolo LDJ mientras exponemos fallos en el cliente.
+Después de escribir la prueba, arreglaremos el código del cliente para que no halla ningún fallo.
+
+Pero primeramente vamos a entender un problema importante.
+
+### Understanding the Message-Boundary Problem
+
+Cuando se desarrolla programas en red en **Node.js**, mayoritariemente se comunican pasando mensajes. En el mejor de los casos llegará un mensaje de una vez, pero a veces los mensajes llegarán en pedazos, divididos en eventos de datos distintos.
+
+*El protocolo **LDJ** que hemos desarrollamos anteriormente separa los mensajes con carácteres de nueva línea. Cada carácter de nueva línea es el límite entre dos mensajes.* 
+
+Es decir que en nuestro caso los límites del evento de datos coinciden exactamente con los límites del mensaje, ya que cada vez que ocurre un cambio se codifica y se envía un mensaje a la conexión.
+
+¿Qué ocurriría si nuestro mensaje a la conexión se dividiera en dos eventos de datos como se muestra en la siguiente figura?
+
+<img src="/img/message.png" alt="Division del mensaje">
+
+
+### Implementing a Test Service
+
+Escribir aplicaciones robustas de Node.js significa manejar problemas de red como:
+
+- entradas divididas
+- conexiones rotas 
+- datos incorrectos 
+
+En esta seccion implementaremos un servicio de prueba que divide un mensaje en varios fragmentos.
+
+
+{% highlight javascript  %}
+ 
+'use strict';
+const server = require('net').createServer(connection => {
+    console.log('Subscriber cpnnected.');
+
+    //two message chunks together make a whole message
+    const firstChunk = '{"type":"changed","timesta';
+    const secondChunk = 'mp":1450694370094}\n';
+
+    //send the first chung immediately
+    connection.write(firstChunk);
+
+    //after a short delay, send the other chunk
+    const timer = setTimeout(() => {
+        connection.write(secondChunk);
+        connection.end();
+    }, 100);
+
+    //clear timer when the connection ends
+    connection.on('end', () => {
+        clearTimeout(timer);
+        console.log('Subscriber disconnected.');
+    });
+
+});
+
+server.listen(60300, function(){
+    console.log('Test server listening for subscribers...');
+});
+
+{% endhighlight %}
+
+En este caso, a diferencia de nuestro primer "observador de archivos", solo enviamos el primer fragmento predeterminado de inmediato. Creamos un delay con `setTimeout()` y enviamos el segundo fragmento. Por ultimo cada vez que se cierra una conexion usamos `clearTimeout()`para evitar la programacion de la *callback*.
+
+*La cancelación de la devolución de llamada es necesaria porque una vez que se cierra una conexión, cualquier llamada a `connection.write()` activará eventos de error.*
+
+```
+~/Documents/Master Informatica/STW-SERVER/p4-t2-networking [master|✚ 2…2] 
+10:47 $ node networking/net-watcher-json-client.js 
+undefined:1
+{"type":"changed","timesta
+                          
+
+SyntaxError: Unexpected end of JSON input
+    at JSON.parse (<anonymous>)
+    at Socket.<anonymous> (/Users/albertomartin/Documents/Master Informatica/STW-SERVER/p4-t2-networking/networking/net-watcher-json-client.js:7:26)
+    at Socket.emit (events.js:210:5)
+    at addChunk (_stream_readable.js:308:12)
+    at readableAddChunk (_stream_readable.js:289:11)
+    at Socket.Readable.push (_stream_readable.js:223:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:182:23)
+```
+
+El token de error inesperado nos dice que el mensaje JSON no era completo. Nuestro cliente intentó enviar medio mensaje a `JSON.parse ()`, que espera solo cadenas JSON completas y formateadas correctamente como entrada.
+
+En este punto, hemos simulado con éxito el caso de un mensaje dividido proveniente del servidor. Ahora arreglemos al cliente para que trabaje con él.
+
+## Extending Core Classes in Custom Modules
+
+
+
+
