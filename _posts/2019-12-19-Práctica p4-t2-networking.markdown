@@ -486,3 +486,50 @@ Ya tenemos nuestro modulo creado ahora aumentemos el cliente de observación de 
 
 ### Importing a Custom Node.js Module
 
+Modifiquemos el cliente para usar el modulo que hemos creado, para ello crearemos un nuevo fichero que se llamará *net-watcher-ldj-client.js*.
+
+Modifiquemos el cliente para usarlo en lugar de leer directamente de la secuencia TCP.
+
+{% highlight javascript  %}
+
+'use strict';
+const netClient = require('net').connect({port: 60300});
+const ldjClient = require('./lib/ldj-client.js').connect(netClient);
+
+ldjClient.on('message',message => {
+    if(message.type === 'watching'){
+        console.log(`Now watching : ${message.file}`);
+    }else if(message.type === 'changed'){
+        console.log(`File changed: ${new Date(message.timestamp)}`);
+    }else{
+        throw Error(`Unrecognized message type: ${message.type}`);
+    }
+});
+
+{% endhighlight %}
+
+Para comprobar que todo funciona correctamente vamos a ejecutar la prueba *test-json-service.js*.
+
+```
+ ~/Documents/Master Informatica/STW-SERVER/p4-t2-networking [master|✔] 
+12:12 $ node networking/test-json-service.js 
+Test server listening for subscribers...
+Subscriber connected.
+Subscriber disconnected.
+|
+```
+
+Y en otra terminal ejecutamos nuestro fichero *net-watcher-ldj-client.js*
+
+```
+~/Documents/Master Informatica/STW-SERVER/p4-t2-networking [master|✚ 1…1] 
+14:24 $ node networking/net-watcher-ldj-client.js 
+File changed: Mon Dec 21 2015 10:39:30 GMT+0000 (hora estándar de Europa occidental)
+
+```
+
+Todo funciona correctamente.
+
+
+## Developing Unit Tests with Mocha
+
