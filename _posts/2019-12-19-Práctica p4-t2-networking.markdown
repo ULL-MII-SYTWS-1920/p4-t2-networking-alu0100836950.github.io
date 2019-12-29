@@ -362,6 +362,127 @@ En este punto, hemos simulado con éxito el caso de un mensaje dividido provenie
 
 ## Extending Core Classes in Custom Modules
 
+Nuestro programa cliente tiene dos trabajos que hacer:
+
+- Una es almacenar los datos entrantes en los mensajes 
+- El otro es manejar cada mensaje cuando llega
+
+En lugar de agrupar estos dos trabajos en un solo programa Node.js, lo correcto es convertir al menos uno de ellos en un **módulo Node.js**. Crearemos un módulo que maneje la parte de almacenamiento intermedio de entrada para que el programa principal pueda obtener mensajes completos.
 
 
+### Extending EventEmitter
+
+Para aliviar el programa del cliente del peligro de dividir los mensajes JSON, implementaremos un módulo de cliente de almacenamiento en un búfer.
+
+#### Inheritance in Node
+
+Primero veremos como funciona la herencia en node:
+
+
+{% highlight javascript  %}
+
+const EventEmitter = require('events').EventEmitter;
+class LDJClient extends EventEmitter{
+    constructor(stream){
+        super();
+    }
+}
+
+{% endhighlight %}
+
+Siempre que se implemente una clase que extienda de otra clase, debe comenzar llamando a `super()`, con los argumentos del constructor. **Stream** es un objeto que emite eventos de datos como una conexion Socket.
+
+La jerarquía de clases ay estarñia constituida, pero no hemos implementado nada para emitir eventos de mensajes. Veamos esto a continuación.
+
+#### Buffering Data Events
+
+Usaremos el parámetro de flujo(stream) en el LDJClient para recuperar y almacenar la entrada.
+
+El siguiente codigo agrega fragmentos de datos entrantes a una cadena de búfer en ejecución y escanea en busca de finales de línea (que deberían ser límites de mensajes JSON).
+
+
+{% highlight javascript  %}
+
+const EventEmitter = require('events').EventEmitter;
+class LDJClient extends EventEmitter{
+    constructor(stream){
+        super();
+        let buffer ='';
+        stream.on('data', data => {
+            buffer += data;
+            let boundary = buffer.indexOf('\n');
+            while(boundary !== -1){
+                const input = buffer.substring(0, boundary);
+                buffer = buffer.substring(boundary + 1);
+                this.emit('message', JSON.parse(input));
+                boundary = buffer.indexOf('\n');
+            }
+        });
+    }
+}
+
+{% endhighlight %}
+
+Comenzamos llamando a `super()`, como antes, y luego configuramos una variable de cadena llamada *buffer* para capturar los datos entrantes.A continuación, usamos `stream.on()` para manejar eventos de datos.
+
+Agregamos datos en bruto al final del búfer y luego buscamos mensajes completos desde el frente. Cada cadena de mensaje se envía a través de `JSON.parse()` y finalmente es emitida por LDJClient como un evento de mensaje a través de `this.emit()`.
+
+A continuación, debemos colocar esta clase en un módulo Node.js para que nuestro cliente ascendente pueda usarla.
+
+#### Exporting Functionality in a Module
+
+Para exportar el modulo que hemos creado añadiremos una carpeta que se llame **lib** y dentro de ella creamos un fichero *ldj-client.js* el en donde su contenido será el siguiente:
+
+{% highlight javascript  %}
+'use strict';
+const EventEmitter = require('events').EventEmitter;
+class LDJClient extends EventEmitter{
+    constructor(stream){
+        super();
+        let buffer ='';
+        stream.on('data', data => {
+            buffer += data;
+            let boundary = buffer.indexOf('\n');
+            while(boundary !== -1){
+                const input = buffer.substring(0, boundary);
+                buffer = buffer.substring(boundary + 1);
+                this.emit('message', JSON.parse(input));
+                boundary = buffer.indexOf('\n');
+            }
+        });
+    }
+
+    static connect(stream){
+        return new LDJClient(stream);
+    }
+}
+
+module.exports = LDJClient;
+
+{% endhighlight %}
+
+Es el mismo contenido que ya habiamos creado pero con algunas líneas necesarias añadidas como el `exports(), use strict`, etc.
+
+*El método connect () es simplemente una conveniencia para los consumidores de la biblioteca para que no tengan que usar el nuevo operador para crear una instancia de LDJClient*
+
+En este caso, con el metodo `exports()` estamos exportando la clase LDJClient. El código para usar el módulo LDJ se verá así:
+
+
+{% highlight javascript  %}
+
+const LDJClient = require('./lib/ldj-client.js'); const client = new LDJClient(networkStream);
+
+{% endhighlight %}
+
+O usando el metodo `connect()`:
+
+{% highlight javascript  %}
+
+const client = require('./lib/ldj-client.js').connect(networkStream);
+
+{% endhighlight %}
+
+Ya tenemos nuestro modulo creado ahora aumentemos el cliente de observación de red para usar el módulo.
+
+### Importing a Custom Node.js Module
 
