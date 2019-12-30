@@ -1,0 +1,24 @@
+{
+  "name": "p4-t2-networking",
+  "version": "1.0.0",
+  "description": "[![Build Status](https://travis-ci.org/ULL-MII-SYTWS-1920/p4-t2-networking-alu0100836950.github.io.svg?branch=master)](https://travis-ci.org/ULL-MII-SYTWS-1920/p4-t2-networking-alu0100836950.github.io)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ULL-MII-SYTWS-1920/p4-t2-networking-alu0100836950.git"
+  },
+  "author": "Alberto Martin Nuñez & Alexis Rodriguez Casañas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ULL-MII-SYTWS-1920/p4-t2-networking-alu0100836950/issues"
+  },
+  "homepage": "https://github.com/ULL-MII-SYTWS-1920/p4-t2-networking-alu0100836950#readme",
+  "dependencies": {
+    "ansi-color": "^0.2.1",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0"
+  }
+}
