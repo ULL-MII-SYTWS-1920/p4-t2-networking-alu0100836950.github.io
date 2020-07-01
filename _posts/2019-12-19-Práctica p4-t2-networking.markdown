@@ -533,3 +533,92 @@ Todo funciona correctamente.
 
 ## Developing Unit Tests with Mocha
 
+Mocha es un marco de prueba multiparadigma para Node.js. 
+Para usar Mocha, primero lo instalaremos con `npm` y posteriormente crearemos una prueba unitaria para la clase *LDJClient* .
+Finalmente usaremos npm para ejecutar el conjunto de pruebas.
+
+Una vez que hayamos instalado mocha en nuestro *packaje.json* tendremos una nueva dependencia.
+
+
+En **Node.js** hay algunos tipos diferentes de dependencias: 
+
+- Dependencias de desarrollo 
+- Dependencias de tiempo de ejecución 
+
+Ambas son instaladas cuando se ejecuta `npm install` sin argumentos adicionales. 
+
+
+### Control de versiones semántico
+
+El control de versiones semántico es una convención fuerte en la comunidad Node.js, que
+definitivamente debe seguir al configurar los números de versión en sus paquetes.
+
+Un **número de versión** consta de tres partes unidas por puntos: 
+
+- La versión principal,
+- La versión menor 
+- El parche.
+
+Para cumplir con la convención de versiones semánticas, cuando realice un cambio en
+el código se tiene que incrementar la parte correcta del número de versión:
+
+- Si el cambio del código no introduce o elimina ninguna funcionalidad (como
+una corrección de errores),se incrementa la versión del parche.
+
+- Si el código introduce funcionalidad pero no elimina o altera las
+funcionalidades, se incrementa la versión menor y se reinicia el parche.
+
+- Si el código de alguna manera rompe la funcionalidad existente, se incrementa la
+versión principal y se restablece las versiones menores y parche.
+
+
+### Escribiendo pruebas unitarias con Mocha
+
+
+Una vez que hemos instalado Mocha desarrollaremos una prueba unitaria.
+
+Crearemos un subdirectorio llamado *test* para guardar el código relacionado con las pruebas, ya que Mocha buscará las pruebas en ese directorio.
+
+Tambien crearmeos un archivo en el directorio llamado *ldj-client-test.js*, que nos quedará de la siguiente forma: 
+
+{% highlight javascript %}
+'use strict';
+
+const assert = require('assert');
+const EventEmitter = require('events').EventEmitter;
+const LDJCLient = require('../lib/ldj-client');
+
+describe('LDJClient', () => {
+    let stream = null;
+    let client = null;
+
+    beforeEach(() => {
+        stream = new EventEmitter();
+        client = new LDJCLient(stream);
+    });
+
+    it('should emit a message event from a single data event', done => {
+        client.on('message', message => {
+            assert.deepEqual(message, {foo: 'bar'});
+            done();
+        });
+        stream.emit('data', '{"foo":"bar"} |n');
+    });
+});
+{% endhighlight %}
+
+
+### Running Mocha Tests from npm
+
+
+Una vez que hemos creado la prueba vamos a ejecutarla. Para ello tenemos que modificar nuestro package.json y añadir lo siguiente:
+
+```
+"scripts":{
+    "tests": "mocha"
+},
+
+```
+
+Ahora solo tenemos que escribir en la consola `mpn test`.
+

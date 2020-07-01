@@ -4,7 +4,7 @@
   "description": "[![Build Status](https://travis-ci.org/ULL-MII-SYTWS-1920/p4-t2-networking-alu0100836950.github.io.svg?branch=master)](https://travis-ci.org/ULL-MII-SYTWS-1920/p4-t2-networking-alu0100836950.github.io)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha -- networking/test/*.js"
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,8 @@
     "ansi-color": "^0.2.1",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0"
+  },
+  "devDependencies": {
+    "mocha": "3.4.2"
   }
 }
