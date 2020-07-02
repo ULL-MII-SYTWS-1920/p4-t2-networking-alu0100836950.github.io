@@ -1,11 +1,28 @@
 var socketio = require('socket.io');
  
-// Listen on port 3636
+
+/**
+ * Creamos una variable socket que esuchara por el puerto 3636
+ * @var {socketio} io
+ */
 var io = socketio.listen(3636);
- 
+
+/**
+ * Creamos la coneccion
+ * @function
+ * @name .on_connect
+ * @param {string} connection
+ * @param {function} function
+ */
 io.sockets.on('connection', function (socket) {
  
-    // Broadcast a user's message to everyone else in the room
+    /**
+     * Transmitimos el mensaje de un usuario conectado y lo enviaremos a todos los usuarios conectados
+     * @function
+     * @name .on_send
+     * @param {string} send
+     * @param {function} function
+     */
     socket.on('send', function (data) {
         io.sockets.emit('message', data);
     });

@@ -608,7 +608,7 @@ describe('LDJClient', () => {
 {% endhighlight %}
 
 
-### Running Mocha Tests from npm
+### Ejecutando test de mocha con npm
 
 
 Una vez que hemos creado la prueba vamos a ejecutarla. Para ello tenemos que modificar nuestro package.json y añadir lo siguiente:
@@ -622,3 +622,24 @@ Una vez que hemos creado la prueba vamos a ejecutarla. Para ello tenemos que mod
 
 Ahora solo tenemos que escribir en la consola `mpn test`.
 
+IMAGEN TEST_PASSING
+
+### Añadiendo más test asíncronos
+
+Ahora modificaremos nuestro archivo de pruebas y le añadiremos lo siguiente:
+
+{% highlight javascript %}
+
+
+    it('should emit a message event from split data events', done => {
+        client.on('message', message => {
+            assert.deepEqual(message, {foo: 'bar'});
+            done();
+        });
+        stream.emit('data', '{"foo":');
+        process.nextTick(() => stream.emit('data', '"bar"}\n'));
+    });
+
+{%  endhighlight %}
+
+En esta ocasion el mensaje que se emite se divide en dos. Haciendo uso del metodo `process.nextTick()` podemos enviar la otra parte del mensaje justo despues de que realizar el `emit`

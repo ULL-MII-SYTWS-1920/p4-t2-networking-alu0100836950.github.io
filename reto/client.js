@@ -1,5 +1,5 @@
 var readline = require('readline'),
-socketio = require('socket.io-client'),
+var socketio = require('socket.io-client'),
 util = require('util'),
 color = require("ansi-color").set;
  
@@ -8,6 +8,13 @@ var nick;
 var socket = socketio.connect('localhost', { port: 3636 });
 var rl = readline.createInterface(process.stdin, process.stdout);
 
+/**
+ * @function
+ * @name console_out
+ * @description Creamos esta funcion porque Readline no funciona bien con el metodo
+ * prompt y se le pasa la salida a esta funcion
+ * @param {string} msg 
+ */
 function console_out(msg) {
     process.stdout.clearLine();
     process.stdout.cursorTo(0);
@@ -41,6 +48,14 @@ function chat_command(cmd, arg) {
     }
 }
 
+/**
+ * @function
+ * @name question
+ * @description Pedimos al usuario un nickname, creamos un mensaje de respuesta y lo enviamos
+ * a los demás usuarios conectados a traves de nuestro socket.emit
+ * @param {string} Text
+ * @param {function} function 
+ */
 rl.question("Please enter a nickname: ", function(name) {
     nick = name;
     var msg = nick + " has joined the chat";

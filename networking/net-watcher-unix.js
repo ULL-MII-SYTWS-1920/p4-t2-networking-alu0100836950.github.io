@@ -5,7 +5,7 @@ const fs = require('fs');
 const net = require('net');
 const filename = process.argv[2];
 
-// comprobamos que el archivo se pas epor argumento sino
+// comprobamos que el archivo se pase por argumento sino
 // creamos un error personalizado
 if(!filename){
     throw Error('Error: No filename specified');
