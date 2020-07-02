@@ -5,21 +5,30 @@ const server = require('net').createServer(connection => {
     //two message chunks together make a whole message
     const firstChunk = '{"type":"changed","timesta';
     const secondChunk = 'mp":1450694370094}\n';
+    const thirdChunk = "type changed timestamp 1451450694370094\n";
+    const testChunk = '{"type":"changed","timestamp":1451450694370094}\n';
 
     //send the first chung immediately
-    connection.write(firstChunk);
+    //connection.write(firstChunk);
 
     //after a short delay, send the other chunk
-    const timer = setTimeout(() => {
+    /*const timer = setTimeout(() => {
         connection.write(secondChunk);
         connection.end();
     }, 100);
+    */
+    
+    //añadido nuevo
+    connection.write(thirdChunk);
+    connection.end();
 
+    
+    
     //clear timer when the connection ends
-    connection.on('end', () => {
+    /*connection.on('end', () => {
         clearTimeout(timer);
         console.log('Subscriber disconnected.');
-    });
+    });*/
 
 });
 
