@@ -1,6 +1,7 @@
 'use strict';
 
 const assert = require('assert');
+const chai_assert = require('chai').assert;
 
 const EventEmitter = require('events').EventEmitter;
 const LDJClient = require('../lib/ldj-client.js');
@@ -39,12 +40,10 @@ describe('LDJClient', () => {
         process.nextTick(() => stream.emit('data', '"bar"}\n'));
     });
 
+    
     it('Le esta enviando un NULL', done =>{
         stream = null;
-        assert.equal(stream, null);
+        chai_assert.Throw(() => {new LDJClient(stream)}, Error);
         done();
-        
-        client = new LDJClient(stream);
     });
-
 });

@@ -643,3 +643,27 @@ Ahora modificaremos nuestro archivo de pruebas y le añadiremos lo siguiente:
 {%  endhighlight %}
 
 En esta ocasion el mensaje que se emite se divide en dos. Haciendo uso del metodo `process.nextTick()` podemos enviar la otra parte del mensaje justo despues de que realizar el `emit`
+
+
+## Añadiento nuevos test
+
+Creamos una prueba para comprobar que el constructor de nuesto LDJClient detecta si se le pasa un valor NULL. 
+
+{% highlight javascript %}
+
+    it('Le esta enviando un NULL', done =>{
+        stream = null;
+        chai_assert.Throw(() => {new LDJClient(stream)}, Error);
+        done();
+    });
+
+{% endhighlight %}
+
+Posteriormente modificamos el codigo para que pase la prueba y comprobamos que el test se realiza satisfactoriamente
+
+IMAGEN DE PASS
+
+
+## Robustez
+
+- ¿Qué sucede si los datos entrantes no son una cadena formateada correctamente en JSON?

@@ -18,6 +18,8 @@
   "homepage": "https://github.com/ULL-MII-SYTWS-1920/p4-t2-networking-alu0100836950#readme",
   "dependencies": {
     "ansi-color": "^0.2.1",
+    "chai": "^4.2.0",
+    "dev-null": "^0.1.1",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0"
   },

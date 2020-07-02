@@ -1,5 +1,6 @@
 'use strict';
 const EventEmitter = require('events').EventEmitter;
+const devnull = require('dev-null');
 
 /**
  * Extendemos de la clase EventEmitter para crear nuestra clase client
@@ -12,6 +13,9 @@ class LDJClient extends EventEmitter{
      * @param {buffer} stream
      */
     constructor(stream){
+
+        if (!(stream))
+            throw new Error('null initialized error!')
         super();
         let buffer ='';
         stream.on('data', data => {
@@ -23,7 +27,7 @@ class LDJClient extends EventEmitter{
                 this.emit('message', JSON.parse(input));
                 boundary = buffer.indexOf('\n');
             }
-        });
+            });
     }
 
 
