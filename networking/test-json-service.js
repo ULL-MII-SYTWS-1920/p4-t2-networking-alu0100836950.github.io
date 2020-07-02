@@ -19,7 +19,7 @@ const server = require('net').createServer(connection => {
     */
     
     //añadido nuevo
-    connection.write(thirdChunk);
+    connection.write(testChunk);
     connection.end();
 
     
