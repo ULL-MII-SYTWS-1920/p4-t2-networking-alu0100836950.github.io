@@ -94,82 +94,6 @@
     
 
     
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-<h4 class="name" id="io"><span class="type-signature"></span>io<span class="type-signature"> :socketio</span></h4>
-
-
-
-
-<div class="description">
-    Creamos una variable socket que esuchara por el puerto 3636
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">socketio</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line4">line 4</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-    
 
     
         <h3 class="subsection-title">Methods</h3>
@@ -180,7 +104,7 @@
     
 
     
-    <h4 class="name" id=".on_connect"><span class="type-signature"></span>.on_connect<span class="signature">(connection, function)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="chat_command"><span class="type-signature"></span>chat_command<span class="signature">(cmd, arg)</span><span class="type-signature"></span></h4>
     
 
     
@@ -188,7 +112,8 @@
 
 
 <div class="description">
-    Creamos la coneccion
+    Analizamos la entrada de los usuarios si es un comando
+especial
 </div>
 
 
@@ -224,7 +149,7 @@
 
         <tr>
             
-                <td class="name"><code>connection</code></td>
+                <td class="name"><code>cmd</code></td>
             
 
             <td class="type">
@@ -240,20 +165,20 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Comando</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>function</code></td>
+                <td class="name"><code>arg</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">function</span>
+<span class="param-type">string</span>
 
 
             
@@ -263,7 +188,7 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Argumento del comando</td>
         </tr>
 
     
@@ -304,7 +229,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line10">line 10</a>
+        <a href="client.js.html">client.js</a>, <a href="client.js.html#line24">line 24</a>
     </li></ul></dd>
     
 
@@ -340,7 +265,7 @@
     
 
     
-    <h4 class="name" id=".on_send"><span class="type-signature"></span>.on_send<span class="signature">(send, function)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="console_out"><span class="type-signature"></span>console_out<span class="signature">(msg)</span><span class="type-signature"></span></h4>
     
 
     
@@ -348,7 +273,7 @@
 
 
 <div class="description">
-    Transmitimos el mensaje a todos los usuarios conectados
+    Creamos esta funcion porque Readline no funciona bien con el metodo prompt y se le pasa la salida a esta funcion.
 </div>
 
 
@@ -384,7 +309,144 @@
 
         <tr>
             
-                <td class="name"><code>send</code></td>
+                <td class="name"><code>msg</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="client.js.html">client.js</a>, <a href="client.js.html#line11">line 11</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="on_line"><span class="type-signature"></span>on_line<span class="signature">(line, function)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Leemos la entrada del cliente conectado
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>line</code></td>
             
 
             <td class="type">
@@ -464,7 +526,168 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line19">line 19</a>
+        <a href="client.js.html">client.js</a>, <a href="client.js.html#line74">line 74</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="question"><span class="type-signature"></span>question<span class="signature">(text, function)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Pedimos al usuario un nickname, creamos un mensaje de respuesta y lo enviamos
+a los demás usuarios conectados a traves de nuestro socket.emit
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>text</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>function</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="client.js.html">client.js</a>, <a href="client.js.html#line58">line 58</a>
     </li></ul></dd>
     
 
@@ -510,13 +733,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#io">io</a></li><li><a href="global.html#.on_connect">.on_connect</a></li><li><a href="global.html#.on_send">.on_send</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#chat_command">chat_command</a></li><li><a href="global.html#console_out">console_out</a></li><li><a href="global.html#on_line">on_line</a></li><li><a href="global.html#question">question</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Thu Jul 02 2020 13:47:04 GMT+0100 (hora de verano de Europa occidental)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Fri Jul 03 2020 13:06:14 GMT+0100 (hora de verano de Europa occidental)
 </footer>
 
 <script> prettyPrint(); </script>
