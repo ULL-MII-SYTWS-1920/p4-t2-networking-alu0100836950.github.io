@@ -622,7 +622,6 @@ Una vez que hemos creado la prueba vamos a ejecutarla. Para ello tenemos que mod
 
 Ahora solo tenemos que escribir en la consola `mpn test`.
 
-IMAGEN TEST_PASSING
 
 ### Añadiendo más test asíncronos
 
@@ -661,7 +660,7 @@ Creamos una prueba para comprobar que el constructor de nuesto LDJClient detecta
 
 Posteriormente modificamos el codigo para que pase la prueba y comprobamos que el test se realiza satisfactoriamente
 
-IMAGEN DE PASS
+<img src="/img/pass.jpeg" alt="passing test">
 
 
 ## Robustez
@@ -679,3 +678,6 @@ cree un mensaje en formato JSON que manipulamos para indicar que el mensaje no e
 
 Al no encontrar el caracter de nueva linea `\n` se da por hecho que no hay ningun mensaje.
 
+- Escribir un caso en donde el objeto stream envie un evento de datos que contenga JSON pero no una nueva línea. ¿Cómo lo haríamos?
+
+<img src="/img/connection-end.png" alt="Code without \n">
