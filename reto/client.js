@@ -5,9 +5,9 @@ color = require("ansi-color").set;
  
  
 var nick;
-var socket = socketio.connect('localhost', { port: 3636 });
+var socket = socketio.connect('http://localhost:3636', { reconnect: 3636 });
 var rl = readline.createInterface(process.stdin, process.stdout);
-console.log(socket);
+//console.log(socket);
 
 /**
  * @function
