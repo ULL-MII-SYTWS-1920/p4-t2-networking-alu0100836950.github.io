@@ -667,3 +667,15 @@ IMAGEN DE PASS
 ## Robustez
 
 - ¿Qué sucede si los datos entrantes no son una cadena formateada correctamente en JSON?
+
+El codigo espera que el mensaje ya este formateado en JSON, por tanto, da un error de sintaxis.
+
+- Modificar para enviar un tipo de dato diferente de JSON. ¿Qué ocurriria?
+
+Modificamos la clase LDJClient y encerramos el `JSON.parse` en un *exception* para que en caso de que el mensaje no este en formato JSON
+cree un mensaje en formato JSON que manipulamos para indicar que el mensaje no esta en formato JSON con un mensaje en la consola. 
+
+- ¿Qué ocurre si el mensaje JSON llega sin el caracter de nueva línea?
+
+Al no encontrar el caracter de nueva linea `\n` se da por hecho que no hay ningun mensaje.
+
