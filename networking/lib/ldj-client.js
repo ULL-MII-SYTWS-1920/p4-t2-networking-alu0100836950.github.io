@@ -39,8 +39,8 @@ class LDJClient extends EventEmitter{
         });
 
         stream.on('end', () => {
-            console.log(buffer += '\n')
-            this.emit('message', JSON.parse(buffer))
+            console.log(buffer += '\n');
+            this.emit('message', JSON.parse(buffer));
         })
     }
 
