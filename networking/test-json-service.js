@@ -7,6 +7,7 @@ const server = require('net').createServer(connection => {
     const secondChunk = 'mp":1450694370094}\n';
     const thirdChunk = "type changed timestamp 1451450694370094\n";
     const testChunk = '{"type":"changed","timestamp":1451450694370094}\n';
+    const caseChunk = '{"type":"changed","timestamp":1451450694370094}';
 
     //send the first chung immediately
     //connection.write(firstChunk);
@@ -19,7 +20,7 @@ const server = require('net').createServer(connection => {
     */
     
     //añadido nuevo
-    connection.write(testChunk);
+    connection.write(caseChunk);
     connection.end();
 
     

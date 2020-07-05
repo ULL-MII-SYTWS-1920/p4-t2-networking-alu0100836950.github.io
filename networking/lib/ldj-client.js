@@ -21,7 +21,6 @@ class LDJClient extends EventEmitter{
         stream.on('data', data => {
             buffer += data;
             let boundary = buffer.indexOf('\n');
-            
             while(boundary !== -1){
                 const input = buffer.substring(0, boundary);
                 buffer = buffer.substring(boundary + 1);
@@ -38,6 +37,11 @@ class LDJClient extends EventEmitter{
                 boundary = buffer.indexOf('\n');
             }
         });
+
+        stream.on('end', () => {
+            console.log(buffer += '\n')
+            this.emit('message', JSON.parse(buffer))
+        })
     }
 
 
