@@ -622,7 +622,6 @@ Una vez que hemos creado la prueba vamos a ejecutarla. Para ello tenemos que mod
 
 Ahora solo tenemos que escribir en la consola `mpn test`.
 
-IMAGEN TEST_PASSING
 
 ### Añadiendo más test asíncronos
 
@@ -661,9 +660,24 @@ Creamos una prueba para comprobar que el constructor de nuesto LDJClient detecta
 
 Posteriormente modificamos el codigo para que pase la prueba y comprobamos que el test se realiza satisfactoriamente
 
-IMAGEN DE PASS
+<img src="img/pass.jpeg" alt="passing test">
 
 
 ## Robustez
 
 - ¿Qué sucede si los datos entrantes no son una cadena formateada correctamente en JSON?
+
+El codigo espera que el mensaje ya este formateado en JSON, por tanto, da un error de sintaxis.
+
+- Modificar para enviar un tipo de dato diferente de JSON. ¿Qué ocurriria?
+
+Modificamos la clase LDJClient y encerramos el `JSON.parse` en un *exception* para que en caso de que el mensaje no este en formato JSON
+cree un mensaje en formato JSON que manipulamos para indicar que el mensaje no esta en formato JSON con un mensaje en la consola. 
+
+- ¿Qué ocurre si el mensaje JSON llega sin el caracter de nueva línea?
+
+Al no encontrar el caracter de nueva linea `\n` se da por hecho que no hay ningun mensaje.
+
+- Escribir un caso en donde el objeto stream envie un evento de datos que contenga JSON pero no una nueva línea. ¿Cómo lo haríamos?
+
+<img src="img/connection-end.png" alt="Code without \n">

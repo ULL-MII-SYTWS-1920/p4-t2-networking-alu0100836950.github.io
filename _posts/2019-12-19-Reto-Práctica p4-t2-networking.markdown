@@ -240,3 +240,7 @@ socket.on('message', function(data){
 
 {% endhighlight %}
 
+
+Probamos nuestro chat con dos clientes y nos quedaría de la siguiente forma:
+
+<img src="https://github.com/ULL-MII-SYTWS-1920/p4-t2-networking-alu0100836950.github.io/tree/master/img/chat.png" alt="Prueba de chat">

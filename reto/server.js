@@ -26,7 +26,7 @@ io.on('connection', function (socket) {
      * @param {function} function
      */
     socket.on('send', function (data) {
-        console.log(data.msg);
+        
         io.sockets.emit('message', data);
     });
  
