@@ -8,6 +8,8 @@ const server = require('net').createServer(connection => {
     const thirdChunk = "type changed timestamp 1451450694370094\n";
     const testChunk = '{"type":"changed","timestamp":1451450694370094}\n';
 
+    const otherChunk = '{"type":"changed","timestamp":1451450694370094}';
+
     //send the first chung immediately
     //connection.write(firstChunk);
 
