@@ -681,3 +681,7 @@ Al no encontrar el caracter de nueva linea `\n` se da por hecho que no hay ningu
 - Escribir un caso en donde el objeto stream envie un evento de datos que contenga JSON pero no una nueva línea. ¿Cómo lo haríamos?
 
 <img src="/img/connection-end.png" alt="Code without \n">
+
+- ¿Debería LDJClient emitir un evento *close* para sus listeners?
+
+Sí. De esta forma se notifica a los listeners que la conexión ha cerrado y no tiene sentido continuar enviado mensajes o bien se puede realizar otra acción en consecuencia.
