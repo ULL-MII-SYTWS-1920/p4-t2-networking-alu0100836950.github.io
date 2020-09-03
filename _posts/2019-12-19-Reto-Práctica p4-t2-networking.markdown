@@ -221,7 +221,7 @@ De esta forma:
 Necesitamos una forma de recibir los mensajes, por ellos tenemos que conectarno al evento *message* y formatear los datos de salida. Para formatear los datos usaremos el paquete *ansi-color* que instalamos al principio.
 
 
-{% highlight javascript  %}
+```javascript  
 
 socket.on('message', function(data){
     var leader;
@@ -238,7 +238,7 @@ socket.on('message', function(data){
     }
 });
 
-{% endhighlight %}
+```
 
 
 Probamos nuestro chat con dos clientes y nos quedaría de la siguiente forma:
