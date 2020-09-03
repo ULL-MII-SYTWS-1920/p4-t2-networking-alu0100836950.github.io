@@ -660,7 +660,7 @@ Creamos una prueba para comprobar que el constructor de nuesto LDJClient detecta
 
 Posteriormente modificamos el codigo para que pase la prueba y comprobamos que el test se realiza satisfactoriamente
 
-<img src="img/pass.jpeg" alt="passing test">
+<img src="/img/pass.jpeg" alt="passing test">
 
 
 ## Robustez
@@ -680,4 +680,4 @@ Al no encontrar el caracter de nueva linea `\n` se da por hecho que no hay ningu
 
 - Escribir un caso en donde el objeto stream envie un evento de datos que contenga JSON pero no una nueva línea. ¿Cómo lo haríamos?
 
-<img src="img/connection-end.png" alt="Code without \n">
+<img src="/img/connection-end.png" alt="Code without \n">
