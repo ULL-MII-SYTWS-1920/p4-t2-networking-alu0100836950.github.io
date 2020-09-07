@@ -243,4 +243,4 @@ socket.on('message', function(data){
 
 Probamos nuestro chat con dos clientes y nos quedaría de la siguiente forma:
 
-![Prueba de chat](/img/chat.png)
+![Prueba de chat](../img/chat.png)
